@@ -25,8 +25,8 @@ public class Player : MonoBehaviour
         
         rigidBody.velocity = new Vector2(xVelocity, rigidBody.velocity.y);
 
-        if (Input.touchCount > 0)
-        //if (Input.GetKeyDown(KeyCode.Space))
+        //if (Input.touchCount > 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
         }
