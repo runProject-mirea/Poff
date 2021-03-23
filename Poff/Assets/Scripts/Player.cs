@@ -31,4 +31,13 @@ public class Player : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
         }
     }
+
+    /* ------- Механика смерти -------
+     * Функция Death() будет вызываться при столкновении.
+     * Если это объект моба, стены или невидимого поля под игроком, движущегося за ним по оси x (но не y)
+     */
+    public void Death()
+    {
+
+    }
 }
