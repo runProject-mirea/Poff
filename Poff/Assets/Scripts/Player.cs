@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [Header("Player Velocity")]
     public float xVelocity = 5;
     public float yVelocity = 6;
+    private bool grounded = true;
+    private bool dblJump = true;
 
     private Rigidbody2D rigidBody;
 
@@ -22,14 +24,35 @@ public class Player : MonoBehaviour
 
     public void UpdatePlayerPosition()
     {
-        
-        rigidBody.velocity = new Vector2(xVelocity, rigidBody.velocity.y);
 
+        rigidBody.velocity = new Vector2(xVelocity, rigidBody.velocity.y);
         //if (Input.touchCount > 0)
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
+            Jump();
         }
+    }
+
+    private void Jump()
+    {
+        if (grounded == true)
+        {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
+            grounded = false;
+        }
+        else if (!grounded && dblJump)
+        {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
+            dblJump = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D hit)
+    {
+        grounded = true;
+        dblJump = true;
+        // check message upon collition for functionality working of code.
+        Debug.Log("I am colliding with something");
     }
 
     /* ------- Механика смерти -------

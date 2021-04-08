@@ -336,6 +336,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1340223574
 Canvas:
   m_ObjectHideFlags: 0
@@ -673,6 +674,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
       objectReference: {fileID: 0}
@@ -685,6 +690,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -695,14 +704,6 @@ PrefabInstance:
     - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
