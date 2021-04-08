@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
     }
     public void NewGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Game Scene");
     }
 
     public void Exit()
