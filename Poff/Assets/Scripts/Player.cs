@@ -11,10 +11,12 @@ public class Player : MonoBehaviour
     private bool dblJump = true;
 
     private Rigidbody2D rigidBody;
+    private CircleCollider2D circleCollider2D;
 
-    void Start()
+    void Awake()
     {
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        circleCollider2D = gameObject.GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -24,7 +26,6 @@ public class Player : MonoBehaviour
 
     public void UpdatePlayerPosition()
     {
-
         rigidBody.velocity = new Vector2(xVelocity, rigidBody.velocity.y);
         //if (Input.touchCount > 0)
         if (Input.GetKeyDown(KeyCode.Space))
@@ -47,12 +48,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D hit)
+    private void OnCollisionEnter2D(Collision2D hit)
     {
-        grounded = true;
-        dblJump = true;
-        // check message upon collition for functionality working of code.
-        Debug.Log("I am colliding with something");
+        if (IsGrounded())
+        {
+            grounded = true;
+            dblJump = true;
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.Raycast(circleCollider2D.bounds.center, Vector2.down,
+            circleCollider2D.bounds.extents.y + 0.01f, 1 << 3);
     }
 
     /* ------- Механика смерти -------

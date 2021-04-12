@@ -562,7 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xVelocity: 10
-  yVelocity: 9
+  yVelocity: 6
 --- !u!58 &2029335137
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -673,6 +673,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4295769462606519567, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_RootOrder
       value: 3
