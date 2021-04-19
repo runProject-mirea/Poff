@@ -16,6 +16,7 @@ public class CollectibleObject : MonoBehaviour, ICollectibleObject
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Collect collision");
         if (collision.GetComponent<Player>() == true)
         {
             DestroyCollectible();

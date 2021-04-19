@@ -814,10 +814,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2029335138}
   scoreText: {fileID: 1685237833}
-  collectibleObjects:
-  - {fileID: 1104384122}
-  distanceScore: 0
-  itemsScore: 0
   currentScore: 0
 --- !u!4 &1808063186
 Transform:
@@ -881,7 +877,7 @@ GameObject:
   - component: {fileID: 2029335138}
   - component: {fileID: 2029335137}
   - component: {fileID: 2029335136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -902,6 +898,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xVelocity: 10
   yVelocity: 6
+  dashXVelocity: 20
+  dashTime: 0.5
 --- !u!58 &2029335137
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1013,9 +1011,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2363318058664978161, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4295769462606519567, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4295769462738927026, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_RootOrder
@@ -1064,6 +1066,10 @@ PrefabInstance:
     - target: {fileID: 4295769462738927037, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
       propertyPath: m_Name
       value: LevelPart_Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295769462738927037, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d043cfe9377a3945a61c9eb5271586c, type: 3}
