@@ -10,13 +10,13 @@ public class Player : MonoBehaviour
     private bool grounded = true;
     private bool dblJump = true;
 
-    private Rigidbody2D rigidBody;
-    private CircleCollider2D circleCollider2D;
+    private Rigidbody2D player;
+    private CircleCollider2D playerCollider2D;
 
     void Awake()
     {
-        rigidBody = gameObject.GetComponent<Rigidbody2D>();
-        circleCollider2D = gameObject.GetComponent<CircleCollider2D>();
+        player = gameObject.GetComponent<Rigidbody2D>();
+        playerCollider2D = gameObject.GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     public void UpdatePlayerPosition()
     {
-        rigidBody.velocity = new Vector2(xVelocity, rigidBody.velocity.y);
+        player.velocity = new Vector2(xVelocity, player.velocity.y);
         //if (Input.touchCount > 0)
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -38,12 +38,12 @@ public class Player : MonoBehaviour
     {
         if (grounded == true)
         {
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
+            player.velocity = new Vector2(player.velocity.x, yVelocity);
             grounded = false;
         }
         else if (!grounded && dblJump)
         {
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, yVelocity);
+            player.velocity = new Vector2(player.velocity.x, yVelocity);
             dblJump = false;
         }
     }
@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.Raycast(circleCollider2D.bounds.center, Vector2.down,
-            circleCollider2D.bounds.extents.y + 0.01f, 1 << 3);
+        return Physics2D.Raycast(playerCollider2D.bounds.center, Vector2.down,
+            playerCollider2D.bounds.extents.y + 0.01f, 1 << 3);
     }
 
     /* ------- Механика смерти -------

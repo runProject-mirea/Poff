@@ -5,7 +5,6 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     private const float PLAYER_DISTANCE_LEVEL_PART = 35f;
-    //private const float PLAYER_DISTANCE_DELETE_LEVEL_PART = 75f;
 
     [SerializeField] private Transform levelPart_Start;
     // отсюда выбираются префабы платформ для создания последущей части уровня
