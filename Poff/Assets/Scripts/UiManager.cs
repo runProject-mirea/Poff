@@ -27,5 +27,14 @@ public class UiManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void Retry()
+    {
+        SceneManager.LoadScene("Game Scene");
+    }
+
+    public void Menu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
 
 }
