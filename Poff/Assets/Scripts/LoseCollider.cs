@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class LoseCollider : MonoBehaviour
 {
-    // Назначение игрока, за которым будет следовать LoseCollider
     [SerializeField] Player player;
 
     public void Update()
@@ -21,7 +20,6 @@ public class LoseCollider : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //При столкновении загружет сцену "Game Over"
-        SceneManager.LoadScene("Game Over");
+        player.Death();
     }
 }

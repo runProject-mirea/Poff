@@ -18,6 +18,7 @@ public class PointsWallet : MonoBehaviour
     {
         scoreManager = new DistanceScore();
         distanceScore = scoreManager.getDistance();
+        DontDestroyOnLoad(scoreText);
     }
 
     // Update is called once per frame
@@ -52,6 +53,11 @@ public class PointsWallet : MonoBehaviour
         Debug.Log("PICK UP ITEM");
         itemsScore += item.getScore();
         //return item.getScore();
+    }
+
+    public float getCurrentScore()
+    {
+        return currentScore;
     }
 
     /*private void PickUpObject(CollectibleObject[] collectibleObjects, Collision2D collision)

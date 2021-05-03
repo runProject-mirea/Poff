@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float dashXVelocity = 12f;
     [SerializeField] private float dashTime = 1f;
+    [SerializeField] private float coolDownDash = 5;
+    private float coolDownDashNow = 0;
     private bool isDashing;
+    //private bool isReadyDash = true;
+    
 
     private bool grounded = true;
     private bool dblJump = true;
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         UpdatePlayerPosition();
+        UpdateDashCooldown();
     }
 
     public void UpdatePlayerPosition()
@@ -75,23 +81,14 @@ public class Player : MonoBehaviour
             playerCollider2D.bounds.extents.y + 0.01f, 1 << 3);
     }
 
-    /*private IEnumerator Dash(float direction)
-    {
-        isDashing = true;
-        player.velocity = new Vector2(player.velocity.x, 0f);
-        player.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);
-        float gravity = player.gravityScale;
-        player.gravityScale = 0;
-        yield return new WaitForSeconds(1f);
-        isDashing = false;
-        player.gravityScale = gravity;
-    }*/
-
     private IEnumerator Dash()
     {
-        Debug.Log("Dash");
-
+        if (coolDownDashNow > 0)
+        //if (isReadyDash)
+            yield break;
         isDashing = true;
+        //isReadyDash = false;
+        coolDownDashNow = coolDownDash;
 
         float tempXVelocity = xVelocity;
         float tempYVelocity = yVelocity;
@@ -104,11 +101,9 @@ public class Player : MonoBehaviour
         player.gravityScale = 0;
 
         Physics2D.IgnoreLayerCollision(6, 3, true);
-        //playerCollider2D.enabled = false;
 
         yield return new WaitForSeconds(dashTime);
         Physics2D.IgnoreLayerCollision(6, 3, false);
-        //playerCollider2D.enabled = true;
         xVelocity = tempXVelocity;
         yVelocity = tempYVelocity;
         isDashing = false;
@@ -118,13 +113,15 @@ public class Player : MonoBehaviour
         dblJump = true;
     }
 
-    //точность до секунды
-    /*IEnumerator ExecuteAfterTime(float timeInSec)
+    private void UpdateDashCooldown()
     {
-        yield return new WaitForSeconds(timeInSec);
-        Debug.Log("Я работаю");
-        //сделать нужное
-    }*/
+        //if (!isReadyDash)
+        //{
+            coolDownDashNow -= Time.deltaTime;
+        //    if (coolDownDashNow <= 0)
+        //        isReadyDash = true;
+        //}
+    }
 
     /* ------- Механика смерти -------
      * Функция Death() будет вызываться при столкновении.
@@ -132,6 +129,9 @@ public class Player : MonoBehaviour
      */
     public void Death()
     {
-
+        //DataSaved data = FindObjectOfType<DataSaved>().setScore();
+        //data.setScore();
+        FindObjectOfType<DataSaved>().setScore();
+        SceneManager.LoadScene("Game Over");
     }
 }
