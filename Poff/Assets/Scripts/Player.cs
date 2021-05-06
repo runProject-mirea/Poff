@@ -1,137 +1,93 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player Velocity")]
+    // Ïåðåíåñòè yVelocity â êëàññ JumpAbility
+    [Header("Player Parameters")]
     [SerializeField] private float xVelocity = 5f;
     [SerializeField] private float yVelocity = 6f;
-
-    [SerializeField] private float dashXVelocity = 12f;
-    [SerializeField] private float dashTime = 1f;
-    [SerializeField] private float coolDownDash = 5;
-    private float coolDownDashNow = 0;
-    private bool isDashing;
-    //private bool isReadyDash = true;
-    
-
-    private bool grounded = true;
-    private bool dblJump = true;
-
-    private Rigidbody2D player;
+    private Rigidbody2D rigidBody2D;
     private CircleCollider2D playerCollider2D;
+
+    [Header("Jump Ability")]
+    [SerializeField] private AbilityJump jumpAbility;
+
+    [Header("Dash Ability")]
+    [SerializeField] private AbilityDash dashAbility;
+     
 
     void Awake()
     {
-        player = gameObject.GetComponent<Rigidbody2D>();
+        dashAbility = gameObject.GetComponent<AbilityDash>();
+        jumpAbility = gameObject.GetComponent<AbilityJump>();
+        rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         playerCollider2D = gameObject.GetComponent<CircleCollider2D>();
     }
 
     void Update()
     {
         UpdatePlayerPosition();
-        UpdateDashCooldown();
     }
 
     public void UpdatePlayerPosition()
     {
-        player.velocity = new Vector2(xVelocity, player.velocity.y);
+        rigidBody2D.velocity = new Vector2(xVelocity, rigidBody2D.velocity.y);
         //if (Input.touchCount > 0)
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Jump();
+            jumpAbility.Jumpa(xVelocity, yVelocity);
         }
 
-        if (Input.GetKeyDown(KeyCode.D) && isDashing == false)
+        if (Input.GetKeyDown(KeyCode.D))
         {
             Debug.Log("D was pressed");
-            StartCoroutine(Dash());
+            if (dashAbility.GetCoolDownDashNow() <= 0)
+            {
+                StartCoroutine(dashAbility.Dash());
+                jumpAbility.SetGrounded(true);
+                jumpAbility.SetDblJump(true);
+            }
         }
     }
 
-    private void Jump()
-    {
-        if (grounded == true)
-        {
-            player.velocity = new Vector2(player.velocity.x, yVelocity);
-            grounded = false;
-        }
-        else if (!grounded && dblJump)
-        {
-            player.velocity = new Vector2(player.velocity.x, yVelocity);
-            dblJump = false;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D hit)
-    {
-        Debug.Log("Collision");
-        if (IsGrounded())
-        {
-            grounded = true;
-            dblJump = true;
-        }
-    }
-
-    private bool IsGrounded()
-    {
-        return Physics2D.Raycast(playerCollider2D.bounds.center, Vector2.down,
-            playerCollider2D.bounds.extents.y + 0.01f, 1 << 3);
-    }
-
-    private IEnumerator Dash()
-    {
-        if (coolDownDashNow > 0)
-        //if (isReadyDash)
-            yield break;
-        isDashing = true;
-        //isReadyDash = false;
-        coolDownDashNow = coolDownDash;
-
-        float tempXVelocity = xVelocity;
-        float tempYVelocity = yVelocity;
-        xVelocity = dashXVelocity;
-        yVelocity = 0;
-        player.velocity = new Vector2(xVelocity, yVelocity);
-        player.AddForce(new Vector2(xVelocity, yVelocity), ForceMode2D.Impulse);
-
-        float gravity = player.gravityScale;
-        player.gravityScale = 0;
-
-        Physics2D.IgnoreLayerCollision(6, 3, true);
-
-        yield return new WaitForSeconds(dashTime);
-        Physics2D.IgnoreLayerCollision(6, 3, false);
-        xVelocity = tempXVelocity;
-        yVelocity = tempYVelocity;
-        isDashing = false;
-        player.gravityScale = gravity;
-
-        grounded = true;
-        dblJump = true;
-    }
-
-    private void UpdateDashCooldown()
-    {
-        //if (!isReadyDash)
-        //{
-            coolDownDashNow -= Time.deltaTime;
-        //    if (coolDownDashNow <= 0)
-        //        isReadyDash = true;
-        //}
-    }
-
-    /* ------- ÐœÐµÑ…Ð°Ð½Ð¸ÐºÐ° ÑÐ¼ÐµÑ€Ñ‚Ð¸ -------
-     * Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Death() Ð±ÑƒÐ´ÐµÑ‚ Ð²Ñ‹Ð·Ñ‹Ð²Ð°Ñ‚ÑŒÑÑ Ð¿Ñ€Ð¸ ÑÑ‚Ð¾Ð»ÐºÐ½Ð¾Ð²ÐµÐ½Ð¸Ð¸.
-     * Ð•ÑÐ»Ð¸ ÑÑ‚Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚ Ð¼Ð¾Ð±Ð°, ÑÑ‚ÐµÐ½Ñ‹ Ð¸Ð»Ð¸ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ð¾Ð³Ð¾ Ð¿Ð¾Ð»Ñ Ð¿Ð¾Ð´ Ð¸Ð³Ñ€Ð¾ÐºÐ¾Ð¼, Ð´Ð²Ð¸Ð¶ÑƒÑ‰ÐµÐ³Ð¾ÑÑ Ð·Ð° Ð½Ð¸Ð¼ Ð¿Ð¾ Ð¾ÑÐ¸ x (Ð½Ð¾ Ð½Ðµ y)
+    /* ------- Ìåõàíèêà ñìåðòè -------
+     * Ôóíêöèÿ Death() áóäåò âûçûâàòüñÿ ïðè ñòîëêíîâåíèè.
+     * Åñëè ýòî îáúåêò ìîáà, ñòåíû èëè íåâèäèìîãî ïîëÿ ïîä èãðîêîì, äâèæóùåãîñÿ çà íèì ïî îñè x (íî íå y)
      */
     public void Death()
     {
-        //DataSaved data = FindObjectOfType<DataSaved>().setScore();
-        //data.setScore();
         FindObjectOfType<DataSaved>().setScore();
         SceneManager.LoadScene("Game Over");
+    }
+
+    // Setters
+    public void SetXVelocity(float xVelocity)
+    {
+        this.xVelocity = xVelocity;
+    }
+    public void SetYVelocity(float yVelocity)
+    {
+        this.yVelocity = yVelocity;
+    }
+
+    // Getters
+    public float GetXVelocity()
+    {
+        return xVelocity;
+    }
+    public float GetYVelocity()
+    {
+        return yVelocity;
+    }
+    public Rigidbody2D GetRigidBody2D()
+    {
+        return rigidBody2D;
+    }
+    public CircleCollider2D GetPlayerCollider2D()
+    {
+        return playerCollider2D;
     }
 }

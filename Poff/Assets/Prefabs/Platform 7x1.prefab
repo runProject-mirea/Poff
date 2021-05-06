@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4068583641739005440}
   - component: {fileID: 4068583641739005454}
   - component: {fileID: 4068583641739005441}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform 7x1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 4068583641739005443}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5a9290faec50fbe4f8388aadb5cd5898, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

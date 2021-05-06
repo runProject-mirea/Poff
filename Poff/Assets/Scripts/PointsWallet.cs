@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+// Отвечает за информацию о набранных очках
 public class PointsWallet : MonoBehaviour
 {
-    private DistanceScore scoreManager;
+    [SerializeField] private DistanceScore scoreManager;
     [SerializeField] private Rigidbody2D player;
     [SerializeField] TextMeshProUGUI scoreText;
     //[SerializeField] private CollectibleObject[] collectibleObjects;
@@ -26,12 +27,15 @@ public class PointsWallet : MonoBehaviour
     {
         UpdateDistanceScore();
         UpdateCurrentScore();
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // по-хорошему, отображение очков должно обновляться 
+        // в классе, отвечающем за информацию на экране
         UpdateScoreText();
     }
 
     private void UpdateCurrentScore()
     {
-        //UpdateDistanceScore();
         currentScore = itemsScore + distanceScore;
     }
 
@@ -55,19 +59,8 @@ public class PointsWallet : MonoBehaviour
         //return item.getScore();
     }
 
-    public float getCurrentScore()
+    public float GetCurrentScore()
     {
         return currentScore;
     }
-
-    /*private void PickUpObject(CollectibleObject[] collectibleObjects, Collision2D collision)
-    {
-        //Object encounteredObject = collision.collider.gameObject;
-        for (int i = 0; i < collectibleObjects.Length; i++) {
-            if (collision.collider.gameObject == collectibleObjects[i])
-            {
-                
-            }
-        }
-    }*/
 }

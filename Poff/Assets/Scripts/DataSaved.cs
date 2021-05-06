@@ -21,24 +21,16 @@ public class DataSaved : MonoBehaviour
         }
     }
 
-    private void CheckSerializedFields()
-    {
-        if (pointsWallet == null)
-        {
-            Debug.LogError("PointsWallet is empty!!!");
-        }
-    }
-
     public void setScore()
     {
         if (pointsWallet == null)
         {
             Debug.LogError("PointsWallet is empty!!!");
-            score = FindObjectOfType<PointsWallet>().getCurrentScore();
+            score = FindObjectOfType<PointsWallet>().GetCurrentScore();
         }
         else
         {
-            score = pointsWallet.getCurrentScore();
+            score = pointsWallet.GetCurrentScore();
         }
     }
 
