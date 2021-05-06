@@ -2,15 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Сделать подсчитывание чарджов 
+// chargingPoints = chargingPoints (PointsWallet & CollectibleObject) +
+// chargeNow = chargingPoints / pointsForCharge (40 / 30 = 1,33) -
+// если chargingPoints >= pointsForCharge * totalCharge -
+// то chargingPoints = pointsForCharge * totalCharge -
 public class AbilityDash : MonoBehaviour
 {
     [Header("Dash Parameters")]
     [SerializeField] private float dashXVelocity = 20f;
     [SerializeField] private float dashTime = 0.5f;
     [SerializeField] private float coolDownDash = 3.5f;
+    [SerializeField] private float pointsForCharge = 30f;
+    [SerializeField] private int totalCharge = 3;
+    //!!!!!!!!!!!!
+    // Добавить в скрипты аудиоклип, ещё в Player, Dash, Jump, Wallet
+    [SerializeField] private AudioClip pickUpSound;
+    //[SerializeField] private CollectibleObject[] chargingItems;
 
-    [Header("Dash Conditions")]
+    //[Header("Dash Conditions")]
     private float coolDownDashNow = 0;
+    [Header("Dash Conditions")]
+    [SerializeField] private float chargingPoints = 0;
+    [SerializeField] private int chargeNow = 0;
     private bool isDashing = false;
 
     [Header("Player Object")]
@@ -30,13 +44,15 @@ public class AbilityDash : MonoBehaviour
     {
         SetIsDashing(true);
         SetCoolDownDashNow(coolDownDash);
+        chargeNow -= 1;
+        chargingPoints -= 30;
 
         float tempXVelocity = player.GetXVelocity();
         float tempYVelocity = player.GetYVelocity();
         player.SetXVelocity(dashXVelocity);
         player.SetYVelocity(0);
         player.GetRigidBody2D().velocity = new Vector2(player.GetXVelocity(), player.GetYVelocity());
-        player.GetRigidBody2D().AddForce(new Vector2(player.GetXVelocity(), 
+        player.GetRigidBody2D().AddForce(new Vector2(player.GetXVelocity(),
             player.GetYVelocity()), ForceMode2D.Impulse);
 
         float gravity = player.GetRigidBody2D().gravityScale;
@@ -50,6 +66,22 @@ public class AbilityDash : MonoBehaviour
         player.SetYVelocity(tempYVelocity);
         isDashing = false;
         player.GetRigidBody2D().gravityScale = gravity;
+    }
+
+    public void CheckCharges()
+    {
+        Debug.LogError("(int)chargingPoints = " + chargingPoints);
+        Debug.LogError("(int)pointsForCharge = " + pointsForCharge);
+        chargeNow = (int)chargingPoints / (int)pointsForCharge;
+        if (chargingPoints >= pointsForCharge * totalCharge)
+        {
+            chargingPoints = pointsForCharge * totalCharge;
+            chargeNow = 3;
+        }
+        if (chargingPoints < 0)
+            chargingPoints = 0;
+        if (chargeNow < 0)
+            chargeNow = 0;
     }
 
     private void UpdateDashCooldown()
@@ -66,13 +98,13 @@ public class AbilityDash : MonoBehaviour
     {
         this.dashTime = dashTime;
     }
-    public void SetCoolDownDash(float coolDownDash)
-    {
-        this.coolDownDash = coolDownDash;
-    }
     public void SetCoolDownDashNow(float coolDownDashNow)
     {
         this.coolDownDashNow = coolDownDashNow;
+    }
+    public void SetChargingPoints(float chargingPoints)
+    {
+        this.chargingPoints = chargingPoints;
     }
     public void SetIsDashing(bool isDashing)
     {
@@ -96,8 +128,21 @@ public class AbilityDash : MonoBehaviour
     {
         return coolDownDashNow;
     }
+    public float GetPointsForCharge()
+    {
+        return pointsForCharge;
+    }
+    public float GetChargingPoints()
+    {
+        return chargingPoints;
+    }
+    public int GetChargeNow()
+    {
+        return chargeNow;
+    }
     public bool GetIsDashing()
     {
         return isDashing;
     }
+
 }

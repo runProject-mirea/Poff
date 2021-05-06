@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AbilityJump : MonoBehaviour
 {
+    [Header("Jump Parameters")]
+    [SerializeField] private AudioClip pickUpSound;
+
     [Header("Jump Conditions")]
     private bool grounded = true;
     private bool dblJump = true;

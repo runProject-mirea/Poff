@@ -4,11 +4,13 @@ using TMPro;
 using UnityEngine;
 
 // Отвечает за информацию о набранных очках
+// взаимодействие с подбираемыми объектами
 public class PointsWallet : MonoBehaviour
 {
     [SerializeField] private DistanceScore scoreManager;
-    [SerializeField] private Rigidbody2D player;
-    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] private Rigidbody2D rigidBody2D;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private AbilityDash chargingDash;
     //[SerializeField] private CollectibleObject[] collectibleObjects;
 
     private float distanceScore;
@@ -18,6 +20,7 @@ public class PointsWallet : MonoBehaviour
     private void Awake()
     {
         scoreManager = new DistanceScore();
+        chargingDash = gameObject.GetComponent<AbilityDash>();
         distanceScore = scoreManager.getDistance();
         DontDestroyOnLoad(scoreText);
     }
@@ -41,7 +44,7 @@ public class PointsWallet : MonoBehaviour
 
     private void UpdateDistanceScore()
     {
-        scoreManager.UpdateScore(player);
+        scoreManager.UpdateScore(rigidBody2D);
         distanceScore = scoreManager.getDistance();
     }
 
@@ -56,6 +59,8 @@ public class PointsWallet : MonoBehaviour
     {
         Debug.Log("PICK UP ITEM");
         itemsScore += item.getScore();
+        chargingDash.SetChargingPoints(chargingDash.GetChargingPoints() + item.getChargingPoints());
+        chargingDash.CheckCharges();
         //return item.getScore();
     }
 

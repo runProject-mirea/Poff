@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 100
+  chargingPoints: 10
   pickUpSound: {fileID: 0}
 --- !u!61 &5888954208258370835
 BoxCollider2D:

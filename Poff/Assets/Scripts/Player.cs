@@ -44,8 +44,9 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             Debug.Log("D was pressed");
-            if (dashAbility.GetCoolDownDashNow() <= 0)
+            if (dashAbility.GetCoolDownDashNow() <= 0)// && dashAbility.GetChargeNow() > 0)
             {
+                Debug.LogError("CHARGE");
                 StartCoroutine(dashAbility.Dash());
                 jumpAbility.SetGrounded(true);
                 jumpAbility.SetDblJump(true);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CollectibleObject : MonoBehaviour, ICollectibleObject
 {
     [SerializeField] private float score;
+    [SerializeField] private float chargingPoints;
     [SerializeField] private AudioClip pickUpSound;
 
     public void DestroyCollectible()
@@ -26,5 +27,10 @@ public class CollectibleObject : MonoBehaviour, ICollectibleObject
     public float getScore()
     {
         return score;
+    }
+
+    public float getChargingPoints()
+    {
+        return chargingPoints;
     }
 }
