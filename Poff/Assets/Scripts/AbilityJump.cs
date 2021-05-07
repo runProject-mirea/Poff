@@ -13,23 +13,29 @@ public class AbilityJump : MonoBehaviour
 
     [Header("Player Object")]
     [SerializeField] private Player player;
+    [SerializeField] private Rigidbody2D rigidBody;
+    [SerializeField] private Collider2D bodyCollider;
 
     void Awake()
     {
         player = gameObject.GetComponent<Player>();
+        rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        bodyCollider = gameObject.GetComponent<Collider2D>();
     }
 
     public void Jumpa(float xVelocity, float yVelocity)
     {
         if (grounded == true)
         {
-            player.GetRigidBody2D().velocity = new Vector2(
+            //player.GetRigidBody2D().velocity = new Vector2(
+            rigidBody.velocity = new Vector2(
                 xVelocity, yVelocity);
             grounded = false;
         }
         else if (!grounded && dblJump)
         {
-            player.GetRigidBody2D().velocity = new Vector2(
+            //player.GetRigidBody2D().velocity = new Vector2(
+            rigidBody.velocity = new Vector2(
                 xVelocity, yVelocity);
             dblJump = false;
         }
@@ -37,9 +43,10 @@ public class AbilityJump : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D hit)
     {
-        Debug.Log("Collision");
+        //Debug.Log("Collision");
         if (IsGrounded())
         {
+            Debug.Log("Grounded");
             grounded = true;
             dblJump = true;
         }
@@ -47,7 +54,9 @@ public class AbilityJump : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.Raycast(player.GetPlayerCollider2D().bounds.center, Vector2.down,
+        //return Physics2D.Raycast(player.GetPlayerCollider2D().bounds.center, Vector2.down,
+        //    player.GetPlayerCollider2D().bounds.extents.y + 0.01f, 1 << 3);
+        return Physics2D.Raycast(bodyCollider.bounds.center, Vector2.down,
             player.GetPlayerCollider2D().bounds.extents.y + 0.01f, 1 << 3);
     }
 

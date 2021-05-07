@@ -35,21 +35,23 @@ public class Player : MonoBehaviour
     public void UpdatePlayerPosition()
     {
         rigidBody2D.velocity = new Vector2(xVelocity, rigidBody2D.velocity.y);
-        //if (Input.touchCount > 0)
+        //if (Input.touchCount == 1)
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpAbility.Jumpa(xVelocity, yVelocity);
         }
-
+        //if (Input.) 
         if (Input.GetKeyDown(KeyCode.D))
         {
             Debug.Log("D was pressed");
-            if (dashAbility.GetCoolDownDashNow() <= 0)// && dashAbility.GetChargeNow() > 0)
+            //if (dashAbility.GetCoolDownDashNow() <= 0)
+            if (dashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetChargeNow() > 0)
             {
                 Debug.LogError("CHARGE");
                 StartCoroutine(dashAbility.Dash());
                 jumpAbility.SetGrounded(true);
                 jumpAbility.SetDblJump(true);
+                GetComponent<PointsWallet>().UpdateChargesDashText();
             }
         }
     }
