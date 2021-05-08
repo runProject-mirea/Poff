@@ -18,35 +18,63 @@ public class AbilityDash : MonoBehaviour
     //!!!!!!!!!!!!
     // Добавить в скрипты аудиоклип, ещё в Player, Dash, Jump, Wallet
     [SerializeField] private AudioClip pickUpSound;
-    //[SerializeField] private CollectibleObject[] chargingItems;
 
-    //[Header("Dash Conditions")]
-    private float coolDownDashNow = 0;
     [Header("Dash Conditions")]
     [SerializeField] private float chargingPoints = 0;
     [SerializeField] private int chargeNow = 0;
+    private float coolDownDashNow = 0;
     private bool isDashing = false;
 
     [Header("Player Object")]
     [SerializeField] private Player player;
 
-    void Awake()
-    {
-        player = gameObject.GetComponent<Player>();
-    }
-
     void Update()
     {
         UpdateDashCooldown();
     }
-
-    public IEnumerator Dash()
+    public void CheckCooldown()
     {
-        SetIsDashing(true);
-        SetCoolDownDashNow(coolDownDash);
-        chargeNow -= 1;
-        chargingPoints -= 30;
-
+        if (coolDownDashNow < 0)
+            coolDownDashNow = 0;
+    }
+    public bool CheckReadyToDash()
+    {
+        if (chargingPoints >= pointsForCharge && coolDownDashNow <= 0)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+    public void CheckCharges()
+    {
+        Debug.LogError("(int)chargingPoints = " + chargingPoints);
+        Debug.LogError("(int)pointsForCharge = " + pointsForCharge);
+        if (pointsForCharge != 0)
+            chargeNow = (int)chargingPoints / (int)pointsForCharge; // delitsa na 0
+        if (chargingPoints >= pointsForCharge * totalCharge)
+        {
+            chargingPoints = pointsForCharge * totalCharge;
+            chargeNow = totalCharge;
+        }
+        if (chargingPoints < 0)
+            chargingPoints = 0;
+        if (chargeNow < 0)
+            chargeNow = 0;
+    }
+    public void Dash()
+    {
+        if (CheckReadyToDash())
+        {
+            SetCoolDownDashNow(coolDownDash);
+            chargingPoints -= pointsForCharge;
+            CheckCharges();
+            StartCoroutine(DoDash());
+        }
+    }
+    private IEnumerator DoDash()
+    {
+        isDashing = true;
         float tempXVelocity = player.GetXVelocity();
         float tempYVelocity = player.GetYVelocity();
         player.SetXVelocity(dashXVelocity);
@@ -67,23 +95,6 @@ public class AbilityDash : MonoBehaviour
         isDashing = false;
         player.GetRigidBody2D().gravityScale = gravity;
     }
-
-    public void CheckCharges()
-    {
-        Debug.LogError("(int)chargingPoints = " + chargingPoints);
-        Debug.LogError("(int)pointsForCharge = " + pointsForCharge);
-        chargeNow = (int)chargingPoints / (int)pointsForCharge;
-        if (chargingPoints >= pointsForCharge * totalCharge)
-        {
-            chargingPoints = pointsForCharge * totalCharge;
-            chargeNow = 3;
-        }
-        if (chargingPoints < 0)
-            chargingPoints = 0;
-        if (chargeNow < 0)
-            chargeNow = 0;
-    }
-
     private void UpdateDashCooldown()
     {
         coolDownDashNow -= Time.deltaTime;

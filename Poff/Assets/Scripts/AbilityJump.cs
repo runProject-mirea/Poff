@@ -12,16 +12,9 @@ public class AbilityJump : MonoBehaviour
     private bool dblJump = true;
 
     [Header("Player Object")]
-    [SerializeField] private Player player;
+    //[SerializeField] private Player player;
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private Collider2D bodyCollider;
-
-    void Awake()
-    {
-        player = gameObject.GetComponent<Player>();
-        rigidBody = gameObject.GetComponent<Rigidbody2D>();
-        bodyCollider = gameObject.GetComponent<Collider2D>();
-    }
 
     public void Jumpa(float xVelocity, float yVelocity)
     {
@@ -41,23 +34,19 @@ public class AbilityJump : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D hit)
+    public void UpdateJumps()
     {
-        //Debug.Log("Collision");
-        if (IsGrounded())
-        {
-            Debug.Log("Grounded");
-            grounded = true;
-            dblJump = true;
-        }
+        Debug.LogError("UpdateJumps");
+        grounded = true;
+        dblJump = true;
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         //return Physics2D.Raycast(player.GetPlayerCollider2D().bounds.center, Vector2.down,
         //    player.GetPlayerCollider2D().bounds.extents.y + 0.01f, 1 << 3);
         return Physics2D.Raycast(bodyCollider.bounds.center, Vector2.down,
-            player.GetPlayerCollider2D().bounds.extents.y + 0.01f, 1 << 3);
+            bodyCollider.bounds.extents.y + 0.01f, 1 << 3);
     }
 
     // Setters

@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelPart_6_1 Variant Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5601311185614529417, guid: ba1a18b8d6f8fd7408e87e77b9ab8fa0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6290938609886853944, guid: ba1a18b8d6f8fd7408e87e77b9ab8fa0, type: 3}
       propertyPath: m_RootOrder
       value: 0

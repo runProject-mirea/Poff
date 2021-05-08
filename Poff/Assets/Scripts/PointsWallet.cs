@@ -11,17 +11,16 @@ public class PointsWallet : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidBody2D;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private AbilityDash abilityDash;
+    [SerializeField] private AbilityDash alwaysAbilityDash;
     [SerializeField] private TextMeshProUGUI chargesDashText;
+    [SerializeField] private TextMeshProUGUI cooldownDashText;
     //[SerializeField] private CollectibleObject[] collectibleObjects;
 
     private float distanceScore;
     private float itemsScore;
     [SerializeField] private float currentScore;
-    // Start is called before the first frame update
     private void Awake()
     {
-        distanceScoreObject = new DistanceScore();
-        abilityDash = gameObject.GetComponent<AbilityDash>();
         distanceScore = distanceScoreObject.getDistance();
         DontDestroyOnLoad(scoreText);
     }
@@ -31,6 +30,8 @@ public class PointsWallet : MonoBehaviour
     {
         UpdateDistanceScore();
         UpdateCurrentScore();
+        UpdateChargesDashText();
+        UpdateCooldownDashText();
 
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // по-хорошему, отображение очков должно обновляться 
@@ -58,7 +59,36 @@ public class PointsWallet : MonoBehaviour
 
     public void UpdateChargesDashText()
     {
-        chargesDashText.text = "Charges: " + abilityDash.GetChargeNow().ToString();
+        //chargesDashText.text = "Charges: " + 
+        //    (abilityDash.GetChargeNow() + alwaysAbilityDash.GetChargeNow()).ToString();
+
+        /*if (abilityDash.GetChargeNow() > 0)
+            chargesDashText.text = "Charges: " + abilityDash.GetChargeNow().ToString();
+        else if (alwaysAbilityDash.GetCoolDownDashNow() <= 0)
+            chargesDashText.text = "Charges: " + alwaysAbilityDash.GetChargeNow().ToString();*/
+        if (abilityDash.GetChargeNow() > 0 && alwaysAbilityDash.GetCoolDownDashNow() <= 0)
+            chargesDashText.text = "Charges: " + 
+                (abilityDash.GetChargeNow() + alwaysAbilityDash.GetChargeNow()).ToString();
+        else if (alwaysAbilityDash.GetCoolDownDashNow() <= 0)
+            chargesDashText.text = "Charges: " + alwaysAbilityDash.GetChargeNow().ToString();
+        else if (abilityDash.GetChargeNow() > 0)
+            chargesDashText.text = "Charges: " + abilityDash.GetChargeNow().ToString();
+        else
+            chargesDashText.text = "Charges: 0";
+    }
+
+    public void UpdateCooldownDashText()
+    {
+        /*if (abilityDash.GetChargeNow() > 0)
+        {
+            abilityDash.CheckCooldown();
+            cooldownDashText.text = abilityDash.GetCoolDownDashNow().ToString() + " s.";
+        }
+        else
+        {*/
+            alwaysAbilityDash.CheckCooldown();
+            cooldownDashText.text = alwaysAbilityDash.GetCoolDownDashNow().ToString() + " s.";
+        //}
     }
 
     public void PickUpObject(CollectibleObject item)
@@ -67,7 +97,7 @@ public class PointsWallet : MonoBehaviour
         itemsScore += item.getScore();
         abilityDash.SetChargingPoints(abilityDash.GetChargingPoints() + item.getChargingPoints());
         abilityDash.CheckCharges();
-        UpdateChargesDashText();
+        //UpdateChargesDashText();
         //return item.getScore();
     }
 

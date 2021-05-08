@@ -17,19 +17,32 @@ public class Player : MonoBehaviour
 
     [Header("Dash Ability")]
     [SerializeField] private AbilityDash dashAbility;
-     
+    [SerializeField] private AbilityDash alwaysDashAbility;
 
-    void Awake()
+    [Header("Wallet Ability")]
+    [SerializeField] private PointsWallet wallet;
+
+    private void Awake()
     {
-        dashAbility = gameObject.GetComponent<AbilityDash>();
-        jumpAbility = gameObject.GetComponent<AbilityJump>();
-        rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
-        playerCollider2D = gameObject.GetComponent<CircleCollider2D>();
+        if (rigidBody2D == null)
+            rigidBody2D = GetComponent<Rigidbody2D>();
+        if (playerCollider2D == null)
+            playerCollider2D = GetComponent<CircleCollider2D>();
     }
 
     void Update()
     {
         UpdatePlayerPosition();
+    }
+
+    private void OnCollisionEnter2D(Collision2D hit)
+    {
+        Debug.Log("Collision");
+        if (jumpAbility.IsGrounded())
+        {
+            Debug.Log("Grounded");
+            jumpAbility.UpdateJumps();
+        }
     }
 
     public void UpdatePlayerPosition()
@@ -40,18 +53,22 @@ public class Player : MonoBehaviour
         {
             jumpAbility.Jumpa(xVelocity, yVelocity);
         }
-        //if (Input.) 
         if (Input.GetKeyDown(KeyCode.D))
         {
             Debug.Log("D was pressed");
             //if (dashAbility.GetCoolDownDashNow() <= 0)
-            if (dashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetChargeNow() > 0)
+            if (dashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetChargeNow() > 0
+                && alwaysDashAbility.GetIsDashing() == false)
             {
-                Debug.LogError("CHARGE");
-                StartCoroutine(dashAbility.Dash());
-                jumpAbility.SetGrounded(true);
-                jumpAbility.SetDblJump(true);
-                GetComponent<PointsWallet>().UpdateChargesDashText();
+                dashAbility.Dash();
+                jumpAbility.UpdateJumps();
+                wallet.UpdateChargesDashText();
+            }
+            else if (alwaysDashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetIsDashing() == false)
+            {
+                alwaysDashAbility.Dash();
+                jumpAbility.UpdateJumps();
+                wallet.UpdateChargesDashText();
             }
         }
     }

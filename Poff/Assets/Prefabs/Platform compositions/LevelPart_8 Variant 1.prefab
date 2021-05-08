@@ -1,11 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3584646722955551898
+--- !u!1001 &1647507601448630217
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8321558159530353372}
+    m_TransformParent: {fileID: 8698242688957826877}
     m_Modifications:
     - target: {fileID: 5888954208258370834, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
       propertyPath: m_Name
@@ -17,11 +17,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5888954208258370838, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 5888954208258370838, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5888954208258370838, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
---- !u!1001 &6218374436795636859
+--- !u!1001 &6739173084817127834
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -66,15 +66,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1731623310578941796, guid: c337278cb8bd9f14d98f59ccfaa47fb0, type: 3}
       propertyPath: m_Name
-      value: LevelPart_8 Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513431425862875981, guid: c337278cb8bd9f14d98f59ccfaa47fb0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513431425862875981, guid: c337278cb8bd9f14d98f59ccfaa47fb0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: LevelPart_8 Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 2679650114365931175, guid: c337278cb8bd9f14d98f59ccfaa47fb0, type: 3}
       propertyPath: m_RootOrder
@@ -122,8 +114,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c337278cb8bd9f14d98f59ccfaa47fb0, type: 3}
---- !u!4 &8321558159530353372 stripped
+--- !u!4 &8698242688957826877 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2679650114365931175, guid: c337278cb8bd9f14d98f59ccfaa47fb0, type: 3}
-  m_PrefabInstance: {fileID: 6218374436795636859}
+  m_PrefabInstance: {fileID: 6739173084817127834}
   m_PrefabAsset: {fileID: 0}
