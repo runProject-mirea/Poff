@@ -7,10 +7,13 @@ public class Player : MonoBehaviour
 {
     // Перенести yVelocity в класс JumpAbility
     [Header("Player Parameters")]
-    [SerializeField] private float xVelocity = 5f;
-    [SerializeField] private float yVelocity = 6f;
+    [SerializeField] private float xVelocity = 0;
+    private float xVelocityNow;
     private Rigidbody2D rigidBody2D;
     private CircleCollider2D playerCollider2D;
+
+    //[Header("Health Timer")]
+    //[SerializeField] private HealthTimer timer;
 
     [Header("Jump Ability")]
     [SerializeField] private AbilityJump jumpAbility;
@@ -24,6 +27,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        xVelocityNow = xVelocity;
         if (rigidBody2D == null)
             rigidBody2D = GetComponent<Rigidbody2D>();
         if (playerCollider2D == null)
@@ -40,38 +44,43 @@ public class Player : MonoBehaviour
         Debug.Log("Collision");
         if (jumpAbility.IsGrounded())
         {
-            Debug.Log("Grounded");
+            //Debug.Log("Grounded");
             jumpAbility.UpdateJumps();
+            xVelocityNow = xVelocity;
         }
     }
 
     public void UpdatePlayerPosition()
     {
-        rigidBody2D.velocity = new Vector2(xVelocity, rigidBody2D.velocity.y);
+        rigidBody2D.velocity = new Vector2(xVelocityNow, rigidBody2D.velocity.y);
+        //rigidBody2D.velocity.Set(xVelocityNow, rigidBody2D.velocity.y);
+        //float horizontal = xVelocityNow;
+        //rigidBody2D.AddForce(horizontal * Vector2.right);
         //if (Input.touchCount == 1)
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            jumpAbility.Jumpa(xVelocity, yVelocity);
+            jumpAbility.Jumpa();
+            
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            Debug.Log("D was pressed");
             //if (dashAbility.GetCoolDownDashNow() <= 0)
-            if (dashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetChargeNow() > 0
-                && alwaysDashAbility.GetIsDashing() == false)
+            if (dashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetChargeNow() > 0)
+                //&& alwaysDashAbility.GetIsDashing() == false)
             {
                 dashAbility.Dash();
                 jumpAbility.UpdateJumps();
                 wallet.UpdateChargesDashText();
             }
-            else if (alwaysDashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetIsDashing() == false)
+            /*else if (alwaysDashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetIsDashing() == false)
             {
                 alwaysDashAbility.Dash();
                 jumpAbility.UpdateJumps();
                 wallet.UpdateChargesDashText();
-            }
+            }*/
         }
     }
+
 
     /* ------- Механика смерти -------
      * Функция Death() будет вызываться при столкновении.
@@ -88,9 +97,9 @@ public class Player : MonoBehaviour
     {
         this.xVelocity = xVelocity;
     }
-    public void SetYVelocity(float yVelocity)
+    public void SetXVelocityNow(float xVelocityNow)
     {
-        this.yVelocity = yVelocity;
+        this.xVelocityNow = xVelocityNow;
     }
 
     // Getters
@@ -98,9 +107,9 @@ public class Player : MonoBehaviour
     {
         return xVelocity;
     }
-    public float GetYVelocity()
+    public float GetXVelocityNow()
     {
-        return yVelocity;
+        return xVelocityNow;
     }
     public Rigidbody2D GetRigidBody2D()
     {

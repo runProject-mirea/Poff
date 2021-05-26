@@ -10,11 +10,11 @@ using UnityEngine;
 public class AbilityDash : MonoBehaviour
 {
     [Header("Dash Parameters")]
-    [SerializeField] private float dashXVelocity = 20f;
-    [SerializeField] private float dashTime = 0.5f;
-    [SerializeField] private float coolDownDash = 3.5f;
-    [SerializeField] private float pointsForCharge = 30f;
-    [SerializeField] private int totalCharge = 3;
+    [SerializeField] private float dashXVelocity = 0;
+    [SerializeField] private float dashTime = 0;
+    [SerializeField] private float coolDownDash = 0;
+    [SerializeField] private float pointsForCharge = 0;
+    [SerializeField] private int totalCharge = 0;
     //!!!!!!!!!!!!
     // Добавить в скрипты аудиоклип, ещё в Player, Dash, Jump, Wallet
     [SerializeField] private AudioClip pickUpSound;
@@ -75,13 +75,10 @@ public class AbilityDash : MonoBehaviour
     private IEnumerator DoDash()
     {
         isDashing = true;
-        float tempXVelocity = player.GetXVelocity();
-        float tempYVelocity = player.GetYVelocity();
-        player.SetXVelocity(dashXVelocity);
-        player.SetYVelocity(0);
-        player.GetRigidBody2D().velocity = new Vector2(player.GetXVelocity(), player.GetYVelocity());
-        player.GetRigidBody2D().AddForce(new Vector2(player.GetXVelocity(),
-            player.GetYVelocity()), ForceMode2D.Impulse);
+        float tempXVelocity = player.GetXVelocityNow();
+        player.SetXVelocityNow(dashXVelocity);
+        player.GetRigidBody2D().velocity = new Vector2(player.GetXVelocityNow(), 0);
+        player.GetRigidBody2D().AddForce(new Vector2(player.GetXVelocityNow(), 0), ForceMode2D.Impulse);
 
         float gravity = player.GetRigidBody2D().gravityScale;
         player.GetRigidBody2D().gravityScale = 0;
@@ -90,8 +87,7 @@ public class AbilityDash : MonoBehaviour
 
         yield return new WaitForSeconds(dashTime);
         Physics2D.IgnoreLayerCollision(6, 3, false);
-        player.SetXVelocity(tempXVelocity);
-        player.SetYVelocity(tempYVelocity);
+        player.SetXVelocityNow(tempXVelocity);
         isDashing = false;
         player.GetRigidBody2D().gravityScale = gravity;
     }

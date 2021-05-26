@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelPart_9 Variant 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8651215169782559547, guid: ad280c551fe91dd42ae6effb95651685, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad280c551fe91dd42ae6effb95651685, type: 3}
 --- !u!4 &2033857886838834875 stripped
@@ -79,7 +83,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5888954208258370838, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5888954208258370838, guid: f97f6e13812aa1945be86bfa786b8350, type: 3}
       propertyPath: m_LocalPosition.y

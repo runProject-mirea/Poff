@@ -5,7 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
+    [SerializeField] DataSaved data;
     public object ScenceManager { get; private set; }
+
+    private void Awake()
+    {
+        data = FindObjectOfType<DataSaved>();
+        data.getScore();
+    }
 
     // Start is called before the first frame update
     void Start()

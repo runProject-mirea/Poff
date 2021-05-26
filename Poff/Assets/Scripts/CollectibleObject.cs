@@ -6,6 +6,10 @@ public class CollectibleObject : MonoBehaviour, ICollectibleObject
 {
     [SerializeField] private float score;
     [SerializeField] private float chargingPoints;
+    [SerializeField] private float speedUp;
+    [SerializeField] private float timeUp;
+    [SerializeField] private float xJumpUp;
+    [SerializeField] private float yJumpUp;
     [SerializeField] private AudioClip pickUpSound;
 
     public void DestroyCollectible()
@@ -28,9 +32,24 @@ public class CollectibleObject : MonoBehaviour, ICollectibleObject
     {
         return score;
     }
-
     public float getChargingPoints()
     {
         return chargingPoints;
+    }
+    public float getSpeedUp()
+    {
+        return speedUp;
+    }
+    public float getTimeUp()
+    {
+        return timeUp;
+    }
+    public float getXJumpUp()
+    {
+        return xJumpUp;
+    }
+    public float getYJumpUp()
+    {
+        return yJumpUp;
     }
 }

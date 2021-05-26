@@ -5,66 +5,115 @@ using UnityEngine;
 public class AbilityJump : MonoBehaviour
 {
     [Header("Jump Parameters")]
+    [SerializeField] private float xVelocity;
+    [SerializeField] private float yVelocity;
+    [SerializeField] private int jumps;
     [SerializeField] private AudioClip pickUpSound;
 
     [Header("Jump Conditions")]
     private bool grounded = true;
-    private bool dblJump = true;
+    private int nowJumps;
 
     [Header("Player Object")]
-    //[SerializeField] private Player player;
+    [SerializeField] private Player player;
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private Collider2D bodyCollider;
+    private float playerXVelocity;
 
-    public void Jumpa(float xVelocity, float yVelocity)
+    private void Awake()
     {
-        if (grounded == true)
+        playerXVelocity = player.GetXVelocityNow();
+        nowJumps = jumps;
+    }
+
+    public void Jumpa()
+    {
+        if (grounded == true && nowJumps > 0)
         {
-            //player.GetRigidBody2D().velocity = new Vector2(
-            rigidBody.velocity = new Vector2(
-                xVelocity, yVelocity);
             grounded = false;
+            nowJumps -= 1;
+            //Debug.Log(playerXVelocity);
+            StartCoroutine(DoJump());// playerXVelocity));
+            
         }
-        else if (!grounded && dblJump)
+        else if (!grounded && nowJumps > 0)
         {
-            //player.GetRigidBody2D().velocity = new Vector2(
-            rigidBody.velocity = new Vector2(
-                xVelocity, yVelocity);
-            dblJump = false;
+            nowJumps -= 1;
+            StartCoroutine(DoJump());// playerXVelocity));
+            
         }
+    }
+
+    private IEnumerator DoJump()//float tempXVelocity)
+    {
+        player.SetXVelocityNow(xVelocity + playerXVelocity * 0.1f);
+        rigidBody.velocity = new Vector2(xVelocity + playerXVelocity * 0.1f, yVelocity);
+        yield return null;
     }
 
     public void UpdateJumps()
     {
-        Debug.LogError("UpdateJumps");
         grounded = true;
-        dblJump = true;
+        nowJumps = jumps;
     }
 
     public bool IsGrounded()
     {
-        //return Physics2D.Raycast(player.GetPlayerCollider2D().bounds.center, Vector2.down,
-        //    player.GetPlayerCollider2D().bounds.extents.y + 0.01f, 1 << 3);
         return Physics2D.Raycast(bodyCollider.bounds.center, Vector2.down,
-            bodyCollider.bounds.extents.y + 0.01f, 1 << 3);
+            bodyCollider.bounds.extents.y + 0.01f, 1 << System.Convert.ToInt32(player.transform.localScale.y));
     }
 
-    // Setters
-    public void SetGrounded(bool grounded)
+    //Setters
+    public void SetXVelocity(float xVelocity)
     {
-        this.grounded = grounded;
+        this.xVelocity = xVelocity;
     }
-    public void SetDblJump(bool dblJump)
+    public void SetYVelocity(float yVelocity)
     {
-        this.dblJump = dblJump;
+        this.yVelocity = yVelocity;
     }
+
     // Getters
+    public float GetXVelocity()
+    {
+        return xVelocity;
+    }
+    public float GetYVelocity()
+    {
+        return yVelocity;
+    }
     public bool GetGrounded()
     {
         return grounded;
     }
-    public bool GetDblJump()
+    public int GetNowJumps()
     {
-        return dblJump;
+        return nowJumps;
     }
 }
+
+/*public void Jumpa()
+    {
+        //rigidBody.velocity.Set(0, 0);
+        if (grounded == true && nowJumps > 0)
+        {
+            //rigidBody.velocity = new Vector2(
+            //    xVelocity, yVelocity);
+            float temp = rigidBody.gravityScale;
+            rigidBody.gravityScale = 0;
+            rigidBody.AddForce(new Vector2(xVelocity, yVelocity), ForceMode2D.Impulse);
+            rigidBody.gravityScale = temp;
+            grounded = false;
+            nowJumps -= 1;
+        }
+        else if (!grounded && nowJumps > 0)
+        {
+            //rigidBody.velocity = new Vector2(
+            //    xVelocity, yVelocity);
+            float temp = rigidBody.gravityScale;
+            rigidBody.gravityScale = 0;
+            rigidBody.AddForce(new Vector2(xVelocity, yVelocity), ForceMode2D.Impulse);
+            rigidBody.gravityScale = temp;
+            nowJumps -= 1;
+        }
+    }*/

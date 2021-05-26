@@ -10,6 +10,7 @@ public class LevelGenerator : MonoBehaviour
     // отсюда выбираются префабы платформ для создания последущей части уровня
     [SerializeField] private List<Transform> levelPartList;
     [SerializeField] private Player player;
+    private float playerXVelocity;
     public float distanceSpawn;
 
     // нужен, чтобы знать, где был последний созданный префаб платформ и для создания нового
@@ -22,6 +23,7 @@ public class LevelGenerator : MonoBehaviour
     {
         // Запоминаем положение стартового префаба
         // чтобы в будущем создать новый и чтобы удалить текущий стартовый
+        playerXVelocity = player.GetXVelocity();
         lastSpawnEndPosition = levelPart_Start.Find("EndPosition").position;
         lastDeleteEndPosition.Add(levelPart_Start.Find("EndPosition"));
     }
@@ -46,8 +48,10 @@ public class LevelGenerator : MonoBehaviour
         Transform chosenLevelPart = levelPartList[Random.Range(0, levelPartList.Count)];
         // генерирует выбранный префаб по координатам
         // (x последнего префаба + дистанция | y последнего префаба | z последнего префаба)
+        //distanceSpawn += (player.GetXVelocity() - playerXVelocity) * 0.75f;
         Transform lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, 
-            new Vector3(lastSpawnEndPosition.x + distanceSpawn, lastSpawnEndPosition.y, lastSpawnEndPosition.z));
+            new Vector3(lastSpawnEndPosition.x + distanceSpawn + (player.GetXVelocity() - playerXVelocity) * 0.75f,
+            lastSpawnEndPosition.y, lastSpawnEndPosition.z));
         // находим последние созданные префабы
         // запоминаем его для создания нового префаба платформ 
         lastSpawnEndPosition = lastLevelPartTransform.Find("EndPosition").position;
