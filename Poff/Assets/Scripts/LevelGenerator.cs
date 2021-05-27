@@ -50,7 +50,7 @@ public class LevelGenerator : MonoBehaviour
         // (x последнего префаба + дистанция | y последнего префаба | z последнего префаба)
         //distanceSpawn += (player.GetXVelocity() - playerXVelocity) * 0.75f;
         Transform lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, 
-            new Vector3(lastSpawnEndPosition.x + distanceSpawn + (player.GetXVelocity() - playerXVelocity) * 0.75f,
+            new Vector3(lastSpawnEndPosition.x + distanceSpawn,// + (player.GetXVelocity() - playerXVelocity) * 0.75f,
             lastSpawnEndPosition.y, lastSpawnEndPosition.z));
         // находим последние созданные префабы
         // запоминаем его для создания нового префаба платформ 

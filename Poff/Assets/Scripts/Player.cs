@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float xVelocityNow;
     private Rigidbody2D rigidBody2D;
     private CircleCollider2D playerCollider2D;
+    [SerializeField] private Animator anim;
 
     //[Header("Health Timer")]
     //[SerializeField] private HealthTimer timer;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
             rigidBody2D = GetComponent<Rigidbody2D>();
         if (playerCollider2D == null)
             playerCollider2D = GetComponent<CircleCollider2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -53,31 +55,25 @@ public class Player : MonoBehaviour
     public void UpdatePlayerPosition()
     {
         rigidBody2D.velocity = new Vector2(xVelocityNow, rigidBody2D.velocity.y);
-        //rigidBody2D.velocity.Set(xVelocityNow, rigidBody2D.velocity.y);
-        //float horizontal = xVelocityNow;
-        //rigidBody2D.AddForce(horizontal * Vector2.right);
-        //if (Input.touchCount == 1)
+        anim.SetBool("isRunning", true);
+        anim.SetBool("isPoof", false);
+        anim.SetBool("isJumping", false);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpAbility.Jumpa();
-            
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isJumping", true);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            //if (dashAbility.GetCoolDownDashNow() <= 0)
             if (dashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetChargeNow() > 0)
-                //&& alwaysDashAbility.GetIsDashing() == false)
             {
                 dashAbility.Dash();
                 jumpAbility.UpdateJumps();
                 wallet.UpdateChargesDashText();
+                anim.SetBool("isRunning", false);
+                anim.SetBool("isPoof", true);
             }
-            /*else if (alwaysDashAbility.GetCoolDownDashNow() <= 0 && dashAbility.GetIsDashing() == false)
-            {
-                alwaysDashAbility.Dash();
-                jumpAbility.UpdateJumps();
-                wallet.UpdateChargesDashText();
-            }*/
         }
     }
 
